@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NusantaraKini - Portal Berita</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+    <!-- ================= HEADER ================ -->
+    <header class="header">
+        <div class="logo">
+            <span class="red">Nusantara</span>Kini
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Cari berita...">
+            <button id="search-btn">🔍</button>
+        </div>
+
+        <div class="right-info">
+            <!-- MODE BUTTON -->
+            <button id="mode-btn" class="mode-btn">🌙</button>
+
+             <!-- INFO JAM, CUACA DLL -->
+            <div class="top-info">
+                <span id="jam">00:00</span>
+                <span id="lokasi">Mendeteksi lokasi...</span>
+                <span id="cuaca">Cuaca...</span>
+                <span id="temperature">--°C</span>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================= NAVBAR ================ -->
+    <nav class="navbar">
+        <a data-kategori="hari-ini">Berita Hari Ini</a>
+        <a data-kategori="populer">Populer</a>
+        <a data-kategori="rekomendasi">Rekomendasi</a>
+    </nav>
+
+    <!-- ================= BREAKING NEWS SLIDER ================ -->
+<section class="breaking-container" id="breaking-section">
+    <div class="breaking-box">
+        <div class="breaking-header">
+            <div class="breaking-badge">🔴 BREAKING NEWS</div>
+            <h2 class="breaking-title">HOT News!!</h2>
+        </div>
+
+        <div class="breaking-slider">
+            <button class="slide-btn left" id="prevSlide">◀</button>
+
+            <div class="breaking-viewport">
+                <div class="breaking-wrapper" id="breakingWrapper">
+                    <!-- Slider akan diisi JS -->
+                </div>
+            </div>
+
+            <button class="slide-btn right" id="nextSlide">▶</button>
+        </div>
+    </div>
+</section>
+
+
+    <!-- ================= CONTENT ================ -->
+    <section class="news-container">
+        <h2 id="judul-section">Berita Hari Ini</h2>
+        <div id="news-list"></div>
+    </section>
+
+    <!-- ================= FOOTER ================ -->
+    <footer class="footer">
+        <p>© 2025 NusantaraKini. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <!-- ================= JS ================ -->
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/clock.js"></script>
+</body>
+</html>

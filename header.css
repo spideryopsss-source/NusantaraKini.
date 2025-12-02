@@ -1,0 +1,45 @@
+.header {
+    width: 100%;
+    background: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.search-box input {
+    padding: 6px;
+    width: 200px;
+}
+
+.search-box button {
+    padding: 6px;
+}
+
+.right-info {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.clock-section {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+.weather img {
+    width: 35px;
+}
+
+.auth a {
+    text-decoration: none;
+    color: black;
+    margin: 0 5px;
+}
