@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----- NEWS DATA & RENDER ----- //
-    // beritaData harus didefinisikan di js/data.js (pastikan file ada)
+    // beritaData harus didefinisikan di data.js (pastikan file ada)
     function tampilkanBerita(kategori) {
         if (typeof beritaData === 'undefined') return;
         const data = beritaData[kategori] || [];
@@ -168,3 +168,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
