@@ -207,7 +207,7 @@ footer {
     color: #b30000 !important;
 }
 
-/* =========================
+/* ==========================
    BREAKING NEWS IKLAN TAMBAHAN
 ========================= */
 .breaking-viewport {
@@ -246,10 +246,9 @@ footer {
     margin-top: 8px;
 }
 
-
 /* ==========================
    TOMBOL & MODE BUTTON
-========================== */
+========================= */
 .btn-news {
     display: inline-block;
     background: red !important;
@@ -283,21 +282,17 @@ footer {
 }
 
 /* ======= PERBAIKAN SLIDER KE TENGAH ======= */
-
-/* Container merah breaking news */
 .breaking-container {
     display: flex;
     justify-content: center;
 }
 
-/* Kotak putih Breaking Box */
 .breaking-box {
     width: 90%;
     max-width: 1100px;
     margin: 0 auto;
 }
 
-/* Seluruh slider di tengah */
 .breaking-slider {
     display: flex;
     justify-content: center;
@@ -305,14 +300,12 @@ footer {
     gap: 15px;
 }
 
-/* Frame slider */
 .breaking-viewport {
     width: 900px;
     max-width: 100%;
     margin: 0 auto;
 }
 
-/* Tombol panah rapat & tepat tengah */
 .slide-btn {
     display: flex;
     justify-content: center;
