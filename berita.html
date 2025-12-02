@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detail Berita</title>
 
     <!-- STYLE UTAMA -->
-    <link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="css/style.css" />
     <style>
     /* ========================
         TOMBOL KEMBALI
@@ -93,111 +92,121 @@
     <!-- Container Detail Berita -->
     <section class="detail-container">
         <h1 id="detail-judul"></h1>
-        <img id="detail-img" class="detail-img">
+        <img id="detail-img" class="detail-img" alt="Gambar Berita" />
         <div id="detail-isi" class="detail-text"></div>
     </section>
 
     <!-- LOAD DATA -->
-    <script src="js/data.js"></script>
+    <script src="js/data.js" defer></script>
 
-    <script>
-    /* ==========================
-       LOAD DETAIL BERITA
-    =========================== */
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
+    <!-- Script lokal untuk halaman detail -->
+    <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Ambil id berita dari URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get("id");
 
-    const semuaBerita = Object.values(beritaData).flat();
-    const data = semuaBerita.find(item => item.id == id);
+        // Pastikan data tersedia (data.js harus mendefinisikan beritaData)
+        if (typeof beritaData === 'undefined') {
+            document.querySelector('.detail-container').innerHTML =
+                "<h2>Data berita tidak tersedia.</h2>";
+            return;
+        }
 
-    if (data) {
-    document.getElementById("detail-judul").textContent = data.judul;
-    document.getElementById("detail-img").src = data.img;
+        const semuaBerita = Object.values(beritaData).flat();
+        const data = semuaBerita.find(item => item.id == id);
 
-    // --- Perbaikan supaya paragraf tidak nyambung ---
-    const isiContainer = document.getElementById("detail-isi");
-    isiContainer.innerHTML = ""; // kosongkan isi lama
+        if (data) {
+            document.getElementById("detail-judul").textContent = data.judul;
+            document.getElementById("detail-img").src = data.img || '';
+            document.getElementById("detail-img").alt = data.judul || 'Gambar Berita';
 
-    // Jika isi berupa 1 paragraf panjang
-    if (typeof data.isi === "string") {
-        // Pisahkan paragraf dengan \n\n atau titik dua paragraf
-        const paragrafList = data.isi.split("\n\n");
+            // --- Perbaikan supaya paragraf tidak nyambung ---
+            const isiContainer = document.getElementById("detail-isi");
+            isiContainer.innerHTML = ""; // kosongkan isi lama
 
-        paragrafList.forEach(p => {
-            const tag = document.createElement("p");
-            tag.textContent = p;
-            isiContainer.appendChild(tag);
-        });
+            // Jika isi berupa array paragraf
+            if (Array.isArray(data.isi)) {
+                data.isi.forEach(p => {
+                    const tag = document.createElement("p");
+                    tag.textContent = p;
+                    isiContainer.appendChild(tag);
+                });
+            }
+            // Jika isi berupa string: pisah berdasarkan double newline, atau jika tidak ada, buat per kalimat paragraf
+            else if (typeof data.isi === "string") {
+                let paragrafList = [];
+                if (data.isi.includes("\n\n")) {
+                    paragrafList = data.isi.split("\n\n");
+                } else if (data.isi.includes("\n")) {
+                    paragrafList = data.isi.split("\n");
+                } else {
+                    // fallback: pisah per kalimat (jaga agar paragraf tidak terlalu pendek)
+                    paragrafList = data.isi.split(/(?<=\.)\s+/);
+                }
 
-    } 
-    // Jika isi berupa array paragraf
-    else if (Array.isArray(data.isi)) {
-        data.isi.forEach(p => {
-            const tag = document.createElement("p");
-            tag.textContent = p;
-            isiContainer.appendChild(tag);
-        });
-    }
+                paragrafList.forEach(p => {
+                    const tag = document.createElement("p");
+                    tag.textContent = p.trim();
+                    isiContainer.appendChild(tag);
+                });
+            }
+        } else {
+            document.querySelector(".detail-container").innerHTML =
+                "<h2>Berita tidak ditemukan.</h2>";
+        }
 
-} else {
-    document.querySelector(".detail-container").innerHTML =
-        "<h2>Berita tidak ditemukan.</h2>";
-}
+        // MODE GELAP / TERANG (safe - jika elemen ada)
+        const modeBtn = document.getElementById("mode-btn");
+        const logoText = document.querySelector(".logo .red"); // bagian "Nusantara"
 
+        if (modeBtn) {
+            modeBtn.addEventListener("click", () => {
+                document.body.classList.toggle("dark-mode");
+                if (document.body.classList.contains("dark-mode")) {
+                    modeBtn.textContent = "☀️";
+                    if (logoText) logoText.style.color = "white";
+                } else {
+                    modeBtn.textContent = "🌙";
+                    if (logoText) logoText.style.color = "red";
+                }
+            });
+        }
 
-    /* ==========================
-       MODE GELAP / TERANG
-    =========================== */
-    const modeBtn = document.getElementById("mode-btn");
-    const logoText = document.getElementById("logo-nusantara"); // hanya bagian Nusantara
+        // JAM REALTIME
+        function updateJam() {
+            const now = new Date();
+            const el = document.getElementById("jam");
+            if (el) el.textContent =
+                now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+        }
+        setInterval(updateJam, 1000);
+        updateJam();
 
-    modeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
+        // LOKASI + CUACA (contoh static)
+        function updateCuaca(lat, lon) {
+            const cu = document.getElementById("cuaca");
+            const t = document.getElementById("temperature");
+            if (cu) cu.textContent = "Cerah Berawan";
+            if (t) t.textContent = "27°C";
+        }
 
-    if (document.body.classList.contains("dark-mode")) {
-        modeBtn.textContent = "☀️";
-        logoText.style.color = "white"; // hanya "Nusantara" berubah
-    } else {
-        modeBtn.textContent = "🌙";
-        logoText.style.color = "red"; // kembali ke merah
-    }
-});
-
-
-    /* ==========================
-       JAM REALTIME
-    =========================== */
-    function updateJam() {
-        const now = new Date();
-        document.getElementById("jam").textContent =
-            now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
-    }
-    setInterval(updateJam, 1000);
-    updateJam();
-
-    /* ==========================
-       LOKASI + CUACA + SUHU
-    =========================== */
-    function updateCuaca(lat, lon) {
-        // Contoh cuaca static
-        document.getElementById("cuaca").textContent = "Cerah Berawan";
-        document.getElementById("temperature").textContent = "27°C";
-    }
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-            const lat = pos.coords.latitude.toFixed(2);
-            const lon = pos.coords.longitude.toFixed(2);
-
-            document.getElementById("lokasi").textContent = `Lokasi: ${lat}, ${lon}`;
-            updateCuaca(lat, lon);
-        }, () => {
-            document.getElementById("lokasi").textContent = "Lokasi tidak diizinkan";
-        });
-    } else {
-        document.getElementById("lokasi").textContent = "Lokasi tidak didukung";
-    }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                const lat = pos.coords.latitude.toFixed(2);
+                const lon = pos.coords.longitude.toFixed(2);
+                const lok = document.getElementById("lokasi");
+                if (lok) lok.textContent = `Lokasi: ${lat}, ${lon}`;
+                updateCuaca(lat, lon);
+            }, () => {
+                const lok = document.getElementById("lokasi");
+                if (lok) lok.textContent = "Lokasi tidak diizinkan";
+            });
+        } else {
+            const lok = document.getElementById("lokasi");
+            if (lok) lok.textContent = "Lokasi tidak didukung";
+        }
+    });
     </script>
-
 </body>
 </html>
