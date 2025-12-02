@@ -25,18 +25,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build project (gabungkan HTML, CSS, JS)
-        run: |
-          mkdir dist
-          cp -r *.html dist/ || true
-          cp -r css dist/ || true
-          cp -r js dist/ || true
-          cp -r assets dist/ || true
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: "."   # Upload seluruh project tanpa build
 
       - name: Deploy to GitHub Pages
         id: deployment
