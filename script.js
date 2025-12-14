@@ -158,6 +158,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modeBtn) {
         modeBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
+        
+        localStorage.setItem(
+    "theme",
+    document.body.classList.contains("dark-mode") ? "dark" : "light"
+);
+
             if (document.body.classList.contains('dark-mode')) {
                 modeBtn.textContent = '☀️';
                 if (logoText) logoText.style.color = 'white';
@@ -168,4 +174,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// =========================
+// SYNC MODE ANTAR HALAMAN
+// =========================
+(function () {
+    const theme = localStorage.getItem("theme");
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+        const btn = document.getElementById("mode-btn");
+        if (btn) btn.textContent = "☀️";
+    }
+})();
 
